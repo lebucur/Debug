@@ -1,7 +1,8 @@
 /*
- * AUTHOR: Loredan E. Bucur
- * LAST_EDIT: 2014
- *
+ *        FILE: Debug.cpp
+ * DESCRIPTION: C++ source code for a debugging library
+ *      AUTHOR: Loredan E. Bucur
+ *   LAST_EDIT: Jan 2016
  */
 
 #if defined(ARDUINO) && ARDUINO >= 100
@@ -12,25 +13,10 @@
 
 #include "Debug.h"
 
-unsigned DB::LOOP_COUNT; //global -> here happens the definition: the var is init with 0;
-
-void DB::serialEvent(char c)
+int get_free_ram()
 {
-	//buffer is 64 Bytes long
-	//wait for commands
-	//can't begin() serial here
-	/*
-	if (c == 'm')
-	{
-		Serial.print(F("\nFree bytes in SRAM: "));
-		Serial.println(freeRam());
-	}
-	*/
+    extern unsigned __heap_start;
+    extern unsigned * __brkval;
+    int a;
+    return (int) &a - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
 }
-/*
-int DB::freeRam() {
-  extern unsigned int __heap_start, * __brkval;
-  int v; 
-  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
-}
-*/
